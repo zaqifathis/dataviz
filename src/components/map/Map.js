@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { ScatterplotLayer, PathLayer } from "@deck.gl/layers";
 import { MapboxLayer } from "@deck.gl/mapbox";
+import getCoord from "./dataLayer";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiemFxaWZhdGhpcyIsImEiOiJjbDhka2p6eWQwczFyM29waG1wNXViZTE4In0.AYKKeWG34ik9VebsbZsd2A";
@@ -12,6 +13,10 @@ export default function Mapp() {
   const [lng, setLng] = useState(-74.00644200339116);
   const [lat, setLat] = useState(40.71251869142519);
   const [zoom, setZoom] = useState(11.5);
+
+  useEffect(() => {
+    const test = getCoord();
+  }, []);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -126,20 +131,23 @@ export default function Mapp() {
           data: [
             {
               path: [
-                [-73.99278505793139, 40.7029772346569],
-                [-73.87216696989826, 40.77362909683373],
-                [-74.87216696989826, 40.75362909683373],
+                [-73.80198312427103, 40.7273426527209],
+                [-73.80197495020914, 40.72736265653674],
+                [-73.80195890645557, 40.727372489288115],
+                [-73.80163589336333, 40.727404448652145],
+                [-73.8016343554051, 40.7273965198534644],
+                [-73.80163134104997, 40.72738097962444],
               ],
               color: [255, 255, 0],
             },
           ],
           pickable: true,
-          widthScale: 5,
+          widthScale: 1,
           widthMinPixels: 2,
           opacity: 0.4,
           getPath: (d) => d.path,
           getColor: (d) => d.color,
-          getWidth: (d) => 50,
+          getWidth: (d) => 2,
         }),
         labelLayerId
       );
