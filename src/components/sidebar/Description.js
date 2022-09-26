@@ -1,25 +1,25 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardContent, Typography } from "@material-ui/core";
+import { style } from "../../constrains";
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 400,
-    // maxHeight: 1000,
     zIndex: 1,
-    position: "absolute",
-    background: "rgba(9, 17, 18, 0.65)",
+    position: style.position,
+    background: style.background,
     padding: "10px 20px",
-    borderRadius: "15px",
-    backdropFilter: "blur(2px)",
+    borderRadius: style.borderRadius,
+    backdropFilter: style.backdropFilter,
   },
   text: {
-    color: "white",
+    color: style.color,
     padding: "0 0 10px 0",
   },
   pos: {
     marginBottom: 10,
-    color: "rgba(191, 192, 192, 1)",
+    color: "rgba(191, 192, 192, 0.8)",
   },
 });
 
