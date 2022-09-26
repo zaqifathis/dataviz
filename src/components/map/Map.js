@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { ScatterplotLayer } from "@deck.gl/layers";
+import { ScatterplotLayer, PathLayer } from "@deck.gl/layers";
 import { MapboxLayer } from "@deck.gl/mapbox";
 
 mapboxgl.accessToken =
@@ -9,8 +9,8 @@ mapboxgl.accessToken =
 export default function Mapp() {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(-73.95633079234533);
-  const [lat, setLat] = useState(40.627794614478546);
+  const [lng, setLng] = useState(-74.00644200339116);
+  const [lat, setLat] = useState(40.71251869142519);
   const [zoom, setZoom] = useState(11.5);
 
   useEffect(() => {
@@ -21,6 +21,7 @@ export default function Mapp() {
       center: [lng, lat],
       zoom: zoom,
       maxPitch: 60,
+      projection: "mercator",
     });
   });
 
@@ -86,15 +87,59 @@ export default function Mapp() {
           type: ScatterplotLayer,
           data: [
             {
-              position: [-73.92202847253446, 40.70868746168603],
+              position: [-73.87216696989826, 40.77362909683373],
               color: [255, 0, 0],
-              radius: 1000,
+              radius: 5000,
             },
           ],
           getPosition: (d) => d.position,
           getFillColor: (d) => d.color,
           getRadius: (d) => d.radius,
           opacity: 0.1,
+        }),
+        labelLayerId
+      );
+
+      map.current.addLayer(
+        new MapboxLayer({
+          id: "deckgl-circle2",
+          type: ScatterplotLayer,
+          data: [
+            {
+              position: [-73.99278505793139, 40.7029772346569],
+              color: [255, 0, 0],
+              radius: 2000,
+            },
+          ],
+          getPosition: (d) => d.position,
+          getFillColor: (d) => d.color,
+          getRadius: (d) => d.radius,
+          opacity: 0.1,
+        }),
+        labelLayerId
+      );
+
+      map.current.addLayer(
+        new MapboxLayer({
+          id: "deckgl-path",
+          type: PathLayer,
+          data: [
+            {
+              path: [
+                [-73.99278505793139, 40.7029772346569],
+                [-73.87216696989826, 40.77362909683373],
+                [-74.87216696989826, 40.75362909683373],
+              ],
+              color: [255, 255, 0],
+            },
+          ],
+          pickable: true,
+          widthScale: 5,
+          widthMinPixels: 2,
+          opacity: 0.4,
+          getPath: (d) => d.path,
+          getColor: (d) => d.color,
+          getWidth: (d) => 50,
         }),
         labelLayerId
       );
