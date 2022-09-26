@@ -1,9 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { ScatterplotLayer, PathLayer } from "@deck.gl/layers";
+import { ScatterplotLayer } from "@deck.gl/layers";
 import { MapboxLayer } from "@deck.gl/mapbox";
-import getCoord from "./dataLayer";
-import Deck from "deck.gl";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiemFxaWZhdGhpcyIsImEiOiJjbDhka2p6eWQwczFyM29waG1wNXViZTE4In0.AYKKeWG34ik9VebsbZsd2A";
@@ -14,13 +12,6 @@ export default function Mapp() {
   const [lng, setLng] = useState(-73.95633079234533);
   const [lat, setLat] = useState(40.627794614478546);
   const [zoom, setZoom] = useState(11.5);
-  // const [coords, setCoords] = useState([]);
-
-  // useEffect(() => {
-  //   const coord = getCoord();
-  //   setCoords(coord);
-  //   console.log(coord);
-  // }, []);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -30,7 +21,6 @@ export default function Mapp() {
       center: [lng, lat],
       zoom: zoom,
       maxPitch: 60,
-      projection: "equirectangular",
     });
   });
 
@@ -40,19 +30,6 @@ export default function Mapp() {
       setLng(map.current.getCenter().lng.toFixed(4));
       setLat(map.current.getCenter().lat.toFixed(4));
       setZoom(map.current.getZoom().toFixed(2));
-    });
-
-    const deck = new Deck({
-      gl: map.current.painter.context.gl,
-      layers: [
-        new ScatterplotLayer({
-          id: "my-scatterplot",
-          data: [{ position: [-74.5, 40], size: 15000 }],
-          getPosition: (d) => d.position,
-          getRadius: (d) => d.size,
-          getFillColor: [255, 0, 0],
-        }),
-      ],
     });
 
     map.current.on("load", () => {
@@ -67,7 +44,7 @@ export default function Mapp() {
       // from OpenStreetMap.
       map.current.addLayer(
         {
-          id: "3d-buildings",
+          id: "add-3d-buildings",
           source: "composite",
           "source-layer": "building",
           filter: ["==", "extrude", "true"],
@@ -103,43 +80,25 @@ export default function Mapp() {
         labelLayerId
       );
 
-      map.current.addLayer(new MapboxLayer({ id: "my-scatterplot", deck }));
+      map.current.addLayer(
+        new MapboxLayer({
+          id: "deckgl-circle",
+          type: ScatterplotLayer,
+          data: [
+            {
+              position: [-73.92202847253446, 40.70868746168603],
+              color: [255, 0, 0],
+              radius: 1000,
+            },
+          ],
+          getPosition: (d) => d.position,
+          getFillColor: (d) => d.color,
+          getRadius: (d) => d.radius,
+          opacity: 0.1,
+        }),
+        labelLayerId
+      );
     });
-
-    // map.current.addLayer(
-    //   new MapboxLayer(
-    //     {
-    //       id: "circle-layer",
-    //       type: ScatterplotLayer,
-    //       data: [
-    //         {
-    //           position: [-73.95633079234533, 40.627794614478546],
-    //           color: [255, 0, 0],
-    //           radius: 1000,
-    //         },
-    //       ],
-    //       getPosition: (d) => d.position,
-    //       getFillColor: (d) => d.color,
-    //       getRadius: (d) => d.radius,
-    //       opacity: 0.1,
-    //     },
-    //     labelLayerId
-    //   )
-    // );
-
-    // map.current.addLayer(
-    //   new MapboxLayer({
-    //     id: "path-layer",
-    //     type: PathLayer,
-    //     data: coords,
-    //     widthScale: 100,
-    //     widthMinPixels: 2,
-    //     getPath: (d) => d,
-    //     getColor: (d) => "rgba(98, 245, 214, 0.7)",
-    //     getWidth: (d) => 50,
-    //   })
-    // );
-    // });
   });
 
   return (
