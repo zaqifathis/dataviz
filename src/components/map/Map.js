@@ -1,10 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import { ScatterplotLayer } from "@deck.gl/layers";
+import { MapboxLayer } from "@deck.gl/mapbox";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiemFxaWZhdGhpcyIsImEiOiJjbDhka2p6eWQwczFyM29waG1wNXViZTE4In0.AYKKeWG34ik9VebsbZsd2A";
 
-export default function App() {
+export default function Mapp() {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(-73.95633079234533);
@@ -75,6 +77,25 @@ export default function App() {
             "fill-extrusion-opacity": 0.6,
           },
         },
+        labelLayerId
+      );
+
+      map.current.addLayer(
+        new MapboxLayer({
+          id: "deckgl-circle",
+          type: ScatterplotLayer,
+          data: [
+            {
+              position: [-73.92202847253446, 40.70868746168603],
+              color: [255, 0, 0],
+              radius: 1000,
+            },
+          ],
+          getPosition: (d) => d.position,
+          getFillColor: (d) => d.color,
+          getRadius: (d) => d.radius,
+          opacity: 0.1,
+        }),
         labelLayerId
       );
     });
