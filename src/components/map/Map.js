@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { ScatterplotLayer, PathLayer } from "@deck.gl/layers";
+import { ScatterplotLayer, PathLayer, GeoJsonLayer } from "@deck.gl/layers";
 import { MapboxLayer } from "@deck.gl/mapbox";
+import axios from "axios";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiemFxaWZhdGhpcyIsImEiOiJjbDhka2p6eWQwczFyM29waG1wNXViZTE4In0.AYKKeWG34ik9VebsbZsd2A";
@@ -12,12 +13,31 @@ export default function Mapp(props) {
   const [lng, setLng] = useState(-74.00644200339116);
   const [lat, setLat] = useState(40.71251869142519);
   const [zoom, setZoom] = useState(11.5);
+  const [mapGeojson, setMapGeojson] = useState();
+
+  const getMapGeo = () => {
+    axios
+      .get(
+        "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/NYC_COVID_Sidewalk_Density_WGS84.geojson"
+      )
+      .then((res) => {
+        console.log("done!");
+        setMapGeojson(res.data);
+      })
+      .catch((err) => {
+        console.log("error!!");
+      });
+  };
+
+  useEffect(() => {
+    getMapGeo();
+  }, []);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/dark-v10",
+      style: "mapbox://styles/mapbox/dark-v10?optimize=true",
       center: [lng, lat],
       zoom: zoom,
       maxPitch: 60,
@@ -97,8 +117,8 @@ export default function Mapp(props) {
             "line-cap": "round",
           },
           paint: {
-            "line-color": "#888",
-            "line-width": 5,
+            "line-color": "yellow",
+            "line-width": 3,
           },
         },
         labelLayerId
@@ -138,30 +158,6 @@ export default function Mapp(props) {
           getFillColor: (d) => d.color,
           getRadius: (d) => d.radius,
           opacity: 0.1,
-        }),
-        labelLayerId
-      );
-
-      map.current.addLayer(
-        new MapboxLayer({
-          id: "deckgl-path",
-          type: PathLayer,
-          data: [
-            {
-              path: [
-                [-73.87216696989826, 40.77362909683373],
-                [-73.99278505793139, 40.7029772346569],
-                [-73.97278505793139, 41.5029772346569],
-              ],
-              color: [255, 255, 0],
-            },
-          ],
-          widthScale: 1,
-          widthMinPixels: 2,
-          opacity: 0.4,
-          getPath: (d) => d.path,
-          getColor: (d) => d.color,
-          getWidth: (d) => 5,
         }),
         labelLayerId
       );

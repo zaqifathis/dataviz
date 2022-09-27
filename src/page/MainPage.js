@@ -10,6 +10,7 @@ import Btn from "../components/buttons/Button";
 import Mapp from "../components/map/Map";
 import Description from "../components/sidebar/Description";
 import Analysis from "../components/sidebar/Analysis";
+import Filter from "../components/buttons/FilterBtn";
 
 import { style } from ".././constrains";
 
@@ -43,6 +44,7 @@ function MainPage() {
         <Btn name={"19.00 pm"} icon={<NightsStayOutlinedIcon />} />
         <Btn name={"average"} icon={<ClearAllOutlinedIcon />} />
       </ButtonGroup>
+      <Filter />
       <Description />
       <Analysis />
       <Mapp />
