@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { ScatterplotLayer, PathLayer, GeoJsonLayer } from "@deck.gl/layers";
+import { ScatterplotLayer, PathLayer, LineLayer } from "@deck.gl/layers";
 import { MapboxLayer } from "@deck.gl/mapbox";
 import { getData } from "./processMap";
 
@@ -20,9 +20,8 @@ export default function Mapp(props) {
     const data = getData();
     setCoordinate(data.coordData);
     setProperties(data.propertiesData);
+    console.log(data);
   }, []);
-
-  console.log(coordinate);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -112,6 +111,27 @@ export default function Mapp(props) {
         },
         labelLayerId
       );
+
+      // // sidewalk layer
+      // // map.current.removeLayer("sdwlk1").removeSource("sdwlk1");
+      // if (!map.current.getLayer("sidewalklayer")) {
+      //   map.current.addLayer(
+      //     new MapboxLayer({
+      //       id: "sdwlk1",
+      //       type: LineLayer,
+      //       data: [
+      //         [-73.87216696989826, 40.77362909683373],
+      //         [-73.99278505793139, 40.7029772346569],
+      //       ],
+      //       getPosition: (d) => d,
+      //       getFillColor: [255, 255, 0],
+      //       getWidth: 5,
+      //       widthMinPixels: 2,
+      //       opacity: 0.1,
+      //     }),
+      //     labelLayerId
+      //   );
+      // }
 
       map.current.addLayer(
         new MapboxLayer({
