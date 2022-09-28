@@ -132,7 +132,7 @@ export default function Mapp(props) {
             {
               position: [-73.87216696989826, 40.77362909683373],
               color: [255, 0, 0],
-              radius: 5000,
+              radius: 500,
             },
           ],
           getPosition: (d) => d.position,
@@ -151,7 +151,7 @@ export default function Mapp(props) {
             {
               position: [-73.99278505793139, 40.7029772346569],
               color: [255, 0, 0],
-              radius: 2000,
+              radius: 500,
             },
           ],
           getPosition: (d) => d.position,
