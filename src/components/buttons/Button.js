@@ -1,6 +1,6 @@
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { style } from "../../data/constrains";
+import { style } from "../../constrains";
 
 const useStyles = makeStyles({
   btn: {

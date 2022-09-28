@@ -12,7 +12,7 @@ import Description from "../components/sidebar/Description";
 import Analysis from "../components/sidebar/Analysis";
 import Filter from "../components/buttons/FilterBtn";
 
-import { style } from "../data/constrains";
+import { style } from ".././constrains";
 
 const useStyles = makeStyles({
   root: {
@@ -44,7 +44,7 @@ function MainPage() {
         <Btn name={"19.00 pm"} icon={<NightsStayOutlinedIcon />} />
         <Btn name={"average"} icon={<ClearAllOutlinedIcon />} />
       </ButtonGroup>
-      {/* <Filter /> */}
+      <Filter />
       <Description />
       <Analysis />
       <Mapp />

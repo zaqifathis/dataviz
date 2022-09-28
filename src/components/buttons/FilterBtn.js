@@ -7,7 +7,7 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { style } from "../../data/constrains";
+import { style } from "../../constrains";
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -72,9 +72,9 @@ function Filter(props) {
           value={props.type}
           input={<BootstrapInput />}
         >
-          <MenuItem value="">
+          {/* <MenuItem value="">
             <em>None</em>
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem value={0}>Total pedestrian</MenuItem>
           <MenuItem value={1}>Restaurant</MenuItem>
           <MenuItem value={2}>Bank</MenuItem>
