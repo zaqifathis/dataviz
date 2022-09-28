@@ -62,7 +62,7 @@ export default function Mapp(props) {
 
       map.current.addSource("sidewalk", {
         type: "geojson",
-        data: "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/NYC_COVID_Sidewalk_Density_WGS84.geojson",
+        data: "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/data_chunck_sidewalk_density/NYSidewalkDensity_xaaaa.geojson",
       });
 
       // The 'building' layer in the Mapbox Streets

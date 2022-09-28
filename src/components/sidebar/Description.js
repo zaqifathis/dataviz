@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardContent, Typography } from "@material-ui/core";
-import { style } from "../../constrains";
+import { style } from "../../data/constrains";
 
 const useStyles = makeStyles({
   root: {
