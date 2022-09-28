@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { ScatterplotLayer, PathLayer, GeoJsonLayer } from "@deck.gl/layers";
 import { MapboxLayer } from "@deck.gl/mapbox";
-import axios from "axios";
+import { getData } from "./processMap";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiemFxaWZhdGhpcyIsImEiOiJjbDhka2p6eWQwczFyM29waG1wNXViZTE4In0.AYKKeWG34ik9VebsbZsd2A";
@@ -13,25 +13,16 @@ export default function Mapp(props) {
   const [lng, setLng] = useState(-74.00644200339116);
   const [lat, setLat] = useState(40.71251869142519);
   const [zoom, setZoom] = useState(11.5);
-  const [mapGeojson, setMapGeojson] = useState();
-
-  const getMapGeo = () => {
-    axios
-      .get(
-        "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/NYC_COVID_Sidewalk_Density_WGS84.geojson"
-      )
-      .then((res) => {
-        console.log("done!");
-        setMapGeojson(res.data);
-      })
-      .catch((err) => {
-        console.log("error!!");
-      });
-  };
+  const [coordinate, setCoordinate] = useState();
+  const [properties, setProperties] = useState();
 
   useEffect(() => {
-    getMapGeo();
+    const data = getData();
+    setCoordinate(data.coordData);
+    setProperties(data.propertiesData);
   }, []);
+
+  console.log(coordinate);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -62,12 +53,10 @@ export default function Mapp(props) {
 
       map.current.addSource("sidewalk", {
         type: "geojson",
-        data: "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/data_chunck_sidewalk_density/NYSidewalkDensity_xaaaa.geojson",
+        data: "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/data_chunck_sidewalk_density/NYCSidewalkDensity_xaaaa.geojson",
       });
 
       // The 'building' layer in the Mapbox Streets
-      // vector tileset contains building height data
-      // from OpenStreetMap.
       map.current.addLayer(
         {
           id: "add-3d-buildings",
