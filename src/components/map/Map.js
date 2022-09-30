@@ -1,8 +1,18 @@
 import React, { useRef, useEffect, useState } from "react";
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { ScatterplotLayer, PathLayer, GeoJsonLayer } from "@deck.gl/layers";
-import { MapboxLayer } from "@deck.gl/mapbox";
-import { getData } from "./processMap";
+import mapboxgl from "mapbox-gl";
+
+import { urls } from "./processMap";
+
+const removeLayerandSource = (map, item) => {
+  const mapLayer = map.current.getLayer(item);
+  if (typeof mapLayer !== "undefined") {
+    map.current.removeLayer(item);
+  }
+  const mapSource = map.current.getSource(item);
+  if (typeof mapSource !== "undefined") {
+    map.current.removeSource(item);
+  }
+};
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiemFxaWZhdGhpcyIsImEiOiJjbDhka2p6eWQwczFyM29waG1wNXViZTE4In0.AYKKeWG34ik9VebsbZsd2A";
@@ -13,16 +23,6 @@ export default function Mapp(props) {
   const [lng, setLng] = useState(-74.00644200339116);
   const [lat, setLat] = useState(40.71251869142519);
   const [zoom, setZoom] = useState(11.5);
-  const [coordinate, setCoordinate] = useState();
-  const [properties, setProperties] = useState();
-
-  useEffect(() => {
-    const data = getData();
-    setCoordinate(data.coordData);
-    setProperties(data.propertiesData);
-  }, []);
-
-  console.log(coordinate);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -43,6 +43,10 @@ export default function Mapp(props) {
       setLat(map.current.getCenter().lat.toFixed(4));
       setZoom(map.current.getZoom().toFixed(2));
     });
+  });
+
+  useEffect(() => {
+    if (!map.current) return; // wait for map to initialize
 
     map.current.on("load", () => {
       // Insert the layer beneath any symbol layer.
@@ -51,14 +55,26 @@ export default function Mapp(props) {
         (layer) => layer.type === "symbol" && layer.layout["text-field"]
       ).id;
 
-      map.current.addSource("sidewalk", {
-        type: "geojson",
-<<<<<<< HEAD
-        data: "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/data_chunck_sidewalk_density/NYCSidewalkDensity_xaaaa.geojson",
-=======
-        data: "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/NYC_COVID_Sidewalk_Density_WGS84.geojson",
->>>>>>> parent of 632bd31 (restructure folder - split geojson files)
-      });
+      for (let i = 0; i < urls.length; i++) {
+        map.current.addSource("sidewalk" + i, {
+          type: "geojson",
+          data: urls[i],
+        });
+
+        map.current.addLayer({
+          id: "sidewalk" + i,
+          type: "line",
+          source: "sidewalk" + i,
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "yellow",
+            "line-width": 1.5,
+          },
+        });
+      }
 
       // The 'building' layer in the Mapbox Streets
       map.current.addLayer(
@@ -96,62 +112,6 @@ export default function Mapp(props) {
             "fill-extrusion-opacity": 0.5,
           },
         },
-        labelLayerId
-      );
-
-      map.current.addLayer(
-        {
-          id: "sidewalk-layer",
-          type: "line",
-          source: "sidewalk",
-          visibility: "visible",
-          layout: {
-            "line-join": "round",
-            "line-cap": "round",
-          },
-          paint: {
-            "line-color": "yellow",
-            "line-width": 3,
-          },
-        },
-        labelLayerId
-      );
-
-      map.current.addLayer(
-        new MapboxLayer({
-          id: "deckgl-circle",
-          type: ScatterplotLayer,
-          data: [
-            {
-              position: [-73.87216696989826, 40.77362909683373],
-              color: [255, 0, 0],
-              radius: 500,
-            },
-          ],
-          getPosition: (d) => d.position,
-          getFillColor: (d) => d.color,
-          getRadius: (d) => d.radius,
-          opacity: 0.1,
-        }),
-        labelLayerId
-      );
-
-      map.current.addLayer(
-        new MapboxLayer({
-          id: "deckgl-circle2",
-          type: ScatterplotLayer,
-          data: [
-            {
-              position: [-73.99278505793139, 40.7029772346569],
-              color: [255, 0, 0],
-              radius: 500,
-            },
-          ],
-          getPosition: (d) => d.position,
-          getFillColor: (d) => d.color,
-          getRadius: (d) => d.radius,
-          opacity: 0.1,
-        }),
         labelLayerId
       );
     });
