@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 
 //should use url
 export const urls = [
@@ -7,25 +7,44 @@ export const urls = [
   "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/data_chunck_sidewalk_density/NYCSidewalkDensity_xaaac.json",
 ];
 
-function getSplitData(featureData) {
-  const coordData = [];
-  const propertiesData = [];
-  for (let i = 0; i < featureData.length; i++) {
-    coordData.push(featureData[i].geometry.coordinates);
-    propertiesData.push(featureData[i].properties);
-  }
-  return { coordData, propertiesData };
-}
-
 export function getData() {
   const featureData = [];
+  const total = [];
 
-  for (let i = 0; i < urls.length; i++) {
+  for (let i = 0; i < 3; i++) {
     const data = require("../../assets/NYCSidewalkDensity_" + i + ".json");
     featureData.push(data.features);
   }
-
   const merged = [].concat.apply([], featureData);
-  const geoJsonData = getSplitData(merged);
-  return geoJsonData;
+  merged.forEach((item) => {
+    total.push(item.properties.p_total_12);
+  });
+  // console.log("merge::", merged);
+  // console.log("total::", total);
+
+  return merged;
+}
+
+export function getRgbValue(val) {
+  const num = val > 100 ? 100 : val;
+  const remapNum = remap(num, 0, 100, 185, 330);
+  const rgb = hsl2rgb(remapNum, 100, 45);
+  return rgb;
+}
+
+function remap(value, sourceMin, sourceMax, destMin, destMax) {
+  return (
+    destMin +
+    ((value - sourceMin) / (sourceMax - sourceMin)) * (destMax - destMin)
+  );
+}
+
+function hsl2rgb(h, s, l) {
+  s /= 100;
+  l /= 100;
+  const k = (n) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n) =>
+    l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  return [255 * f(0), 255 * f(8), 255 * f(4)];
 }

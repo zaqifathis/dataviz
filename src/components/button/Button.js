@@ -15,6 +15,7 @@ function Btn(props) {
   const classes = useStyles();
   return (
     <Button
+      onClick={props.onUpdate}
       className={classes.btn}
       variant="contained"
       size="small"
