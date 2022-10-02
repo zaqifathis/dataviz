@@ -18,6 +18,16 @@ export default function App(props) {
   const [zoom, setZoom] = useState(11.5);
   const [time, setTime] = useState(9);
 
+  const pathLine = new MapboxLayer({
+    id: "sidewalk_line",
+    type: PathLayer,
+    data: geoData,
+    widthMinPixels: 2,
+    getWidth: 3,
+    getPath: (d) => d.geometry.coordinates[0],
+    getColor: (d) => getRgbValue(d.properties[`p_total_${props.selectedTime}`]),
+  });
+
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -40,19 +50,8 @@ export default function App(props) {
     });
   });
 
-  const pathLine = new MapboxLayer({
-    id: "sidewalk_line",
-    type: PathLayer,
-    data: geoData,
-    widthMinPixels: 2,
-    getWidth: 3,
-    getPath: (d) => d.geometry.coordinates[0],
-    getColor: (d) => getRgbValue(d.properties[`p_total_${props.selectedTime}`]),
-  });
-
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
-
     map.current.on("load", () => {
       const firstLabelLayerId = map.current
         .getStyle()
@@ -104,21 +103,27 @@ export default function App(props) {
   });
 
   useEffect(() => {
-    if (!map.current) return; // wait for map to initialize
-    // setTime((prev) => props.selectedTime);
+    if (!map.current) return;
+    map.current.on("sourcedata", (e) => {
+      console.log(e);
+    });
+  });
+  // useEffect(() => {
+  //   if (!map.current) return; // wait for map to initialize
+  // setTime((prev) => props.selectedTime);
 
-    //delete current layer and source
-    // if (map.current.getLayer("sidewalk_line")) {
-    //   map.current.removeLayer("sidewalk_line");
-    // }
-    // if (map.current.getSource("sidewalk_line")) {
-    //   map.current.removeSource("sidewalk_line");
-    // }
+  //delete current layer and source
+  // if (map.current.getLayer("sidewalk_line")) {
+  //   map.current.removeLayer("sidewalk_line");
+  // }
+  // if (map.current.getSource("sidewalk_line")) {
+  //   map.current.removeSource("sidewalk_line");
+  // }
 
-    console.log("props:", props.selectedTime);
-    // console.log("layer:", map.current.getStyle());
-    //add layer
-  }, [props.selectedTime]);
+  // console.log("props:", props.selectedTime);
+  // console.log("layer:", map.current.getStyle());
+  //add layer
+  // }, [props.selectedTime]);
 
   return (
     <div>
