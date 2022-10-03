@@ -8,21 +8,27 @@ import NightsStayOutlinedIcon from "@material-ui/icons/NightsStayOutlined";
 import Mapp from "../components/map/Map";
 import Description from "../components/sidebar/Description";
 import Analysis from "../components/sidebar/Analysis";
-// import Btn from "../components/button/Button";
 
 import { style } from ".././constrains";
 
 const useStyles = makeStyles({
-  root: {
+  timeGroup: {
     zIndex: 2,
     position: style.position,
     right: 0,
     margin: "0 10px 0 0",
   },
-  switch: {
+  filterGroup1: {
     zIndex: 2,
-    position: "fixed",
-    left: "50%",
+    position: style.position,
+    right: 0,
+    margin: "50px 10px 0 0",
+  },
+  filterGroup2: {
+    zIndex: 2,
+    position: style.position,
+    right: 0,
+    margin: "80px 10px 0 0",
   },
   btn: {
     borderRadius: style.borderRadius,
@@ -32,17 +38,32 @@ const useStyles = makeStyles({
   },
 });
 
+const filter = {
+  total: "p_total_",
+  subway: "subw_",
+  office: "offi_",
+  bank: "bank_",
+  restaurant: "rest_",
+  pharmacy: "phar_",
+  supermarket: "supe_",
+};
+
 function MainPage() {
   const classes = useStyles();
-  const [timeActive, setTimeActive] = useState(2);
+  const [timeActive, setTimeActive] = useState("19");
+  const [filterLoc, setFilterLoc] = useState(filter.total);
 
   return (
     <div>
-      <ButtonGroup className={classes.root} variant="contained" color="primary">
+      <ButtonGroup
+        className={classes.timeGroup}
+        variant="contained"
+        color="primary"
+      >
         <Button
           className={classes.btn}
           onClick={() => {
-            setTimeActive(0);
+            setTimeActive("9");
           }}
           variant="contained"
           size="small"
@@ -52,7 +73,7 @@ function MainPage() {
         </Button>
         <Button
           className={classes.btn}
-          onClick={() => setTimeActive(1)}
+          onClick={() => setTimeActive("12")}
           variant="contained"
           size="small"
           startIcon={<WbCloudyOutlinedIcon />}
@@ -61,7 +82,7 @@ function MainPage() {
         </Button>
         <Button
           className={classes.btn}
-          onClick={() => setTimeActive(2)}
+          onClick={() => setTimeActive("19")}
           variant="contained"
           size="small"
           startIcon={<NightsStayOutlinedIcon />}
@@ -69,9 +90,86 @@ function MainPage() {
           19.00 pm
         </Button>
       </ButtonGroup>
+
+      <ButtonGroup
+        className={classes.filterGroup1}
+        variant="contained"
+        color="primary"
+      >
+        <Button
+          className={classes.btn}
+          onClick={() => {
+            setFilterLoc(filter.total);
+          }}
+          variant="contained"
+          size="small"
+        >
+          total
+        </Button>
+        <Button
+          className={classes.btn}
+          onClick={() => {
+            setFilterLoc(filter.subway);
+          }}
+          variant="contained"
+          size="small"
+        >
+          subway
+        </Button>
+        <Button
+          className={classes.btn}
+          onClick={() => setFilterLoc(filter.office)}
+          variant="contained"
+          size="small"
+        >
+          office
+        </Button>
+        <Button
+          className={classes.btn}
+          onClick={() => setFilterLoc(filter.pharmacy)}
+          variant="contained"
+          size="small"
+        >
+          pharmacy
+        </Button>
+      </ButtonGroup>
+
+      <ButtonGroup
+        className={classes.filterGroup2}
+        variant="contained"
+        color="primary"
+      >
+        <Button
+          className={classes.btn}
+          onClick={() => setFilterLoc(filter.bank)}
+          variant="contained"
+          size="small"
+        >
+          bank
+        </Button>
+        <Button
+          className={classes.btn}
+          onClick={() => {
+            setFilterLoc(filter.restaurant);
+          }}
+          variant="contained"
+          size="small"
+        >
+          restaurant
+        </Button>
+        <Button
+          className={classes.btn}
+          onClick={() => setFilterLoc(filter.supermarket)}
+          variant="contained"
+          size="small"
+        >
+          supermarket
+        </Button>
+      </ButtonGroup>
+
       <Description />
       <Analysis />
-      <Mapp selectedTime={timeActive} />
+      <Mapp selectedTime={timeActive} selectedLoc={filterLoc} />
     </div>
   );
 }
