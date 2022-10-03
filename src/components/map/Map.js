@@ -1,7 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { MapboxLayer } from "@deck.gl/mapbox";
-import { PathLayer } from "@deck.gl/layers";
 
 import { getData, getRgbValue } from "./processMap";
 import NYCSidewalkDensity_0 from "../../assets/NYCSidewalkDensity_0.json";
@@ -17,6 +15,20 @@ const NYCdata = [
   NYCSidewalkDensity_0,
   NYCSidewalkDensity_1,
   NYCSidewalkDensity_2,
+];
+
+const layerHide = [
+  "road-label-small",
+  "road-label-medium",
+  "place-city-sm",
+  "place-city-md-s",
+  "place-city-md-n",
+  "place-city-lg-s",
+  "place-city-lg-n",
+  "place-town",
+  // "poi-scalerank1",
+  "poi-scalerank2",
+  "poi-scalerank3",
 ];
 
 const colorSteps = [
@@ -90,6 +102,10 @@ export default function Mapp(props) {
         firstLabelLayerId
       );
 
+      for (let i = 0; i < layerHide.length; i++) {
+        map.setLayoutProperty(layerHide[i], "visibility", "none");
+      }
+
       for (let i = 0; i < NYCdata.length; i++) {
         //add source
         map.addSource(`sidewalk${i}`, {
@@ -131,6 +147,7 @@ export default function Mapp(props) {
   useEffect(() => {
     paint();
     console.log("activeprop is::", activeProp);
+    // console.log(map.getStyle());
   }, [activeProp]);
 
   const paint = () => {
