@@ -17,10 +17,9 @@ export function getData() {
   }
   const merged = [].concat.apply([], featureData);
   merged.forEach((item) => {
-    total.push(item.properties.p_total_12);
+    total.push(item.properties.p_total_19);
   });
   // console.log("merge::", merged);
-  // console.log("total::", total);
 
   return merged;
 }

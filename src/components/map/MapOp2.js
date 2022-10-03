@@ -178,9 +178,9 @@ export default function Mapp(props) {
 
   useEffect(() => {
     //update the active useState
-    setActive(option[props.selectedTime]);
-    // paint();
-  }, [props.selectedTime]);
+    setActive(props);
+    paint();
+  }, [props]);
 
   useEffect(() => {
     paint();

@@ -34,14 +34,16 @@ const useStyles = makeStyles({
 
 function MainPage() {
   const classes = useStyles();
-  const [time, setTime] = useState(19);
+  const [timeActive, setTimeActive] = useState(2);
 
   return (
     <div>
       <ButtonGroup className={classes.root} variant="contained" color="primary">
         <Button
           className={classes.btn}
-          onClick={() => setTime(9)}
+          onClick={() => {
+            setTimeActive(0);
+          }}
           variant="contained"
           size="small"
           startIcon={<WbSunnyOutlinedIcon />}
@@ -50,7 +52,7 @@ function MainPage() {
         </Button>
         <Button
           className={classes.btn}
-          onClick={() => setTime(12)}
+          onClick={() => setTimeActive(1)}
           variant="contained"
           size="small"
           startIcon={<WbCloudyOutlinedIcon />}
@@ -59,7 +61,7 @@ function MainPage() {
         </Button>
         <Button
           className={classes.btn}
-          onClick={() => setTime(19)}
+          onClick={() => setTimeActive(2)}
           variant="contained"
           size="small"
           startIcon={<NightsStayOutlinedIcon />}
@@ -69,7 +71,7 @@ function MainPage() {
       </ButtonGroup>
       <Description />
       <Analysis />
-      <Mapp selectedTime={time} />
+      <Mapp selectedTime={timeActive} />
     </div>
   );
 }
