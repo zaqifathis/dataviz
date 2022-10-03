@@ -12,6 +12,12 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiemFxaWZhdGhpcyIsImEiOiJjbDhka2p6eWQwczFyM29waG1wNXViZTE4In0.AYKKeWG34ik9VebsbZsd2A";
 
 const geoData = getData();
+const lineWidth = 1.5;
+const NYCdata = [
+  NYCSidewalkDensity_0,
+  NYCSidewalkDensity_1,
+  NYCSidewalkDensity_2,
+];
 
 export default function Mapp(props) {
   const option = [
@@ -109,77 +115,36 @@ export default function Mapp(props) {
         firstLabelLayerId
       );
 
-      map.addSource("sidewalk0", {
-        type: "geojson",
-        data: NYCSidewalkDensity_0,
-      });
+      for (let i = 0; i < NYCdata.length; i++) {
+        //add source
+        map.addSource(`sidewalk${i}`, {
+          type: "geojson",
+          data: NYCdata[i],
+        });
 
-      map.addSource("sidewalk1", {
-        type: "geojson",
-        data: NYCSidewalkDensity_1,
-      });
+        //add layer
+        map.addLayer(
+          {
+            id: `sidewalk${i}`,
+            type: "line",
+            source: `sidewalk${i}`,
+          },
+          firstLabelLayerId
+        );
 
-      map.addSource("sidewalk2", {
-        type: "geojson",
-        data: NYCSidewalkDensity_2,
-      });
+        map.setPaintProperty(`sidewalk${i}`, "line-color", {
+          property: active.property,
+          stops: active.stops,
+        });
 
-      //layer1
-      map.addLayer(
-        {
-          id: "sidewalk0",
-          type: "line",
-          source: "sidewalk0",
-        },
-        firstLabelLayerId
-      );
-
-      map.setPaintProperty("sidewalk0", "line-color", {
-        property: active.property,
-        stops: active.stops,
-      });
-
-      //layer2
-      map.addLayer(
-        {
-          id: "sidewalk1",
-          type: "line",
-          source: "sidewalk1",
-        },
-        firstLabelLayerId
-      );
-
-      map.setPaintProperty("sidewalk1", "line-color", {
-        property: active.property,
-        stops: active.stops,
-      });
-
-      //layer3
-      map.addLayer(
-        {
-          id: "sidewalk2",
-          type: "line",
-          source: "sidewalk2",
-        },
-        firstLabelLayerId
-      );
-
-      map.setPaintProperty("sidewalk2", "line-color", {
-        property: active.property,
-        stops: active.stops,
-      });
-
+        map.setPaintProperty(`sidewalk${i}`, "line-width", lineWidth);
+      }
       setMap(map);
     });
-
-    // Clean up on unmount
-    // return () => map.remove();
   }, []);
 
   useEffect(() => {
-    //update the active useState
     setActive(option[props.selectedTime]);
-    // paint();
   }, [props.selectedTime]);
 
   useEffect(() => {
@@ -188,14 +153,12 @@ export default function Mapp(props) {
 
   const paint = () => {
     if (map) {
-      map.setPaintProperty("sidewalk0", "line-color", {
-        property: active.property,
-        stops: active.stops,
-      });
-      map.setPaintProperty("sidewalk1", "line-color", {
-        property: active.property,
-        stops: active.stops,
-      });
+      for (let i = 0; i < NYCdata.length; i++) {
+        map.setPaintProperty(`sidewalk${i}`, "line-color", {
+          property: active.property,
+          stops: active.stops,
+        });
+      }
     }
   };
 
