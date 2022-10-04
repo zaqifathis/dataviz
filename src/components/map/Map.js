@@ -154,7 +154,6 @@ export default function Mapp(props) {
         },
         firstLabelLayerId
       );
-      // map.setLayoutProperty("subwayLines", "visibility", "visible");
 
       //subway station
       map.addSource("subwayStation", {
@@ -179,19 +178,32 @@ export default function Mapp(props) {
         },
         firstLabelLayerId
       );
+      map.setLayoutProperty("subwayLines", "visibility", "none");
+      map.setLayoutProperty("subwayStation", "visibility", "none");
 
       setMap(map);
     });
   }, []);
 
   useEffect(() => {
+    if (!map) return;
     setTime(props.selectedTime);
     setActiveProp(loc + props.selectedTime);
   }, [props.selectedTime]);
 
   useEffect(() => {
+    if (!map) return;
     setLoc(props.selectedLoc);
     setActiveProp(props.selectedLoc + time);
+
+    //check layer
+    if (props.selectedLoc === "subw_") {
+      map.setLayoutProperty("subwayLines", "visibility", "visible");
+      map.setLayoutProperty("subwayStation", "visibility", "visible");
+    } else {
+      map.setLayoutProperty("subwayLines", "visibility", "none");
+      map.setLayoutProperty("subwayStation", "visibility", "none");
+    }
   }, [props.selectedLoc]);
 
   useEffect(() => {

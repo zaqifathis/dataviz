@@ -57,6 +57,7 @@ function MainPage() {
   const [filterLoc, setFilterLoc] = useState(filter.total);
 
   return (
+    //should made button as component
     <div>
       <ButtonGroup
         className={classes.timeGroup}
