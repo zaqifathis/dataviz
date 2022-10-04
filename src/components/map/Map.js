@@ -5,6 +5,10 @@ import { getData, getRgbValue } from "./processMap";
 import NYCSidewalkDensity_0 from "../../assets/NYCSidewalkDensity_0.json";
 import NYCSidewalkDensity_1 from "../../assets/NYCSidewalkDensity_1.json";
 import NYCSidewalkDensity_2 from "../../assets/NYCSidewalkDensity_2.json";
+import SubwayLines from "../../assets/Subway Lines.geojson";
+import SubwayStation from "../../assets/Subway Stations.geojson";
+import { ContactsOutlined } from "@material-ui/icons";
+import { colorStops } from "../../constrains";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiemFxaWZhdGhpcyIsImEiOiJjbDhka2p6eWQwczFyM29waG1wNXViZTE4In0.AYKKeWG34ik9VebsbZsd2A";
@@ -26,18 +30,17 @@ const layerHide = [
   "place-city-lg-s",
   "place-city-lg-n",
   "place-town",
-  // "poi-scalerank1",
   "poi-scalerank2",
   "poi-scalerank3",
 ];
 
 const colorSteps = [
   [0, "rgba(19, 239, 250,0)"],
-  [20, "rgb(19, 113, 250)"],
-  [40, "rgb(40, 19, 250)"],
-  [75, "rgb(159, 19, 250)"],
-  [100, "rgb(250, 19, 194)"],
-  [150, "rgb(250, 19, 75)"],
+  [20, colorStops[0]],
+  [40, colorStops[1]],
+  [75, colorStops[2]],
+  [100, colorStops[3]],
+  [150, colorStops[4]],
 ];
 
 export default function Mapp(props) {
@@ -102,18 +105,18 @@ export default function Mapp(props) {
         firstLabelLayerId
       );
 
+      //hide text layer
       for (let i = 0; i < layerHide.length; i++) {
         map.setLayoutProperty(layerHide[i], "visibility", "none");
       }
 
+      //sidewalk layer
       for (let i = 0; i < NYCdata.length; i++) {
         //add source
         map.addSource(`sidewalk${i}`, {
           type: "geojson",
           data: NYCdata[i],
         });
-
-        //add layer
         map.addLayer(
           {
             id: `sidewalk${i}`,
@@ -122,14 +125,61 @@ export default function Mapp(props) {
           },
           firstLabelLayerId
         );
-
         map.setPaintProperty(`sidewalk${i}`, "line-color", {
           property: activeProp,
           stops: colorSteps,
         });
-
         map.setPaintProperty(`sidewalk${i}`, "line-width", lineWidth);
       }
+
+      //subway layer
+      //subway line
+      map.addSource("subwayLines", {
+        type: "geojson",
+        data: SubwayLines,
+      });
+      map.addLayer(
+        {
+          id: "subwayLines",
+          type: "line",
+          source: "subwayLines",
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "rgba(234, 246, 49, 0.2)",
+            "line-width": 2,
+          },
+        },
+        firstLabelLayerId
+      );
+      // map.setLayoutProperty("subwayLines", "visibility", "visible");
+
+      //subway station
+      map.addSource("subwayStation", {
+        type: "geojson",
+        data: SubwayStation,
+      });
+      map.addLayer(
+        {
+          id: "subwayStation",
+          type: "circle",
+          source: "subwayStation",
+          paint: {
+            "circle-radius": {
+              base: 3,
+              stops: [
+                [12, 3.5],
+                [22, 150],
+              ],
+            },
+            "circle-color": "rgba(234, 246, 49, 0.2)",
+          },
+        },
+        firstLabelLayerId
+      );
+
       setMap(map);
     });
   }, []);
@@ -147,7 +197,6 @@ export default function Mapp(props) {
   useEffect(() => {
     paint();
     console.log("activeprop is::", activeProp);
-    // console.log(map.getStyle());
   }, [activeProp]);
 
   const paint = () => {

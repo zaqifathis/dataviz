@@ -15,11 +15,12 @@ const useStyles = makeStyles({
   },
   text: {
     color: style.color,
-    padding: "0 0 10px 0",
+    padding: "0 0 5px 0",
   },
   pos: {
-    marginBottom: 10,
+    marginBottom: 5,
     color: "rgba(191, 192, 192, 0.8)",
+    fontSize: "12px",
   },
 });
 

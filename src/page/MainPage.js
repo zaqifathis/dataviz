@@ -8,6 +8,7 @@ import NightsStayOutlinedIcon from "@material-ui/icons/NightsStayOutlined";
 import Mapp from "../components/map/Map";
 import Description from "../components/sidebar/Description";
 import Analysis from "../components/sidebar/Analysis";
+import Legend from "../components/sidebar/Legend";
 
 import { style } from ".././constrains";
 
@@ -28,13 +29,15 @@ const useStyles = makeStyles({
     zIndex: 2,
     position: style.position,
     right: 0,
-    margin: "80px 10px 0 0",
+    margin: "85px 10px 0 0",
   },
   btn: {
     borderRadius: style.borderRadius,
     backdropFilter: style.backdropFilter,
     background: style.background,
     color: style.color,
+    textTransform: "lowercase",
+    fontWeight: "lighter",
   },
 });
 
@@ -169,6 +172,7 @@ function MainPage() {
 
       <Description />
       <Analysis />
+      <Legend />
       <Mapp selectedTime={timeActive} selectedLoc={filterLoc} />
     </div>
   );
