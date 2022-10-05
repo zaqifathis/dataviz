@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     bottom: 0,
     right: 0,
     padding: "0 0 0 0",
-    margin: "0 10px 40px 0",
+    margin: "0 10px 30px 0",
     position: style.position,
     background: style.background,
     borderRadius: style.borderRadius,
@@ -64,7 +64,8 @@ export default function Legend() {
         </Typography>
         <Card className={classes.legend}></Card>;
         <Typography className={classes.legendtext} variant="body2" gutterBottom>
-          20 <span>&#62;</span>150
+          {colorStops.step[0]} <span>&#62;</span>
+          {colorStops.step[colorStops.step.length - 1]}
         </Typography>
       </CardContent>
     </Card>

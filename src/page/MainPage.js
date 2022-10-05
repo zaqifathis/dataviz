@@ -8,6 +8,7 @@ import NightsStayOutlinedIcon from "@material-ui/icons/NightsStayOutlined";
 import Mapp from "../components/map/Map";
 import Description from "../components/sidebar/Description";
 import Analysis from "../components/sidebar/Analysis";
+import Charts from "../components/sidebar/Charts";
 import Legend from "../components/sidebar/Legend";
 
 import { style } from ".././constrains";
@@ -173,8 +174,9 @@ function MainPage() {
 
       <Description />
       <Analysis />
-      <Legend />
+      <Charts selectedTime={timeActive} selectedLoc={filterLoc} />
       <Mapp selectedTime={timeActive} selectedLoc={filterLoc} />
+      <Legend />
     </div>
   );
 }

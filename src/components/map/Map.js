@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
-import { getData, getRgbValue } from "./processMap";
 import NYCSidewalkDensity_0 from "../../assets/NYCSidewalkDensity_0.json";
 import NYCSidewalkDensity_1 from "../../assets/NYCSidewalkDensity_1.json";
 import NYCSidewalkDensity_2 from "../../assets/NYCSidewalkDensity_2.json";
@@ -13,7 +12,6 @@ import { colorStops } from "../../constrains";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiemFxaWZhdGhpcyIsImEiOiJjbDhka2p6eWQwczFyM29waG1wNXViZTE4In0.AYKKeWG34ik9VebsbZsd2A";
 
-const geoData = getData();
 const lineWidth = 1.75;
 const NYCdata = [
   NYCSidewalkDensity_0,
@@ -24,23 +22,32 @@ const NYCdata = [
 const layerHide = [
   "road-label-small",
   "road-label-medium",
+  // "road-label-large",
   "place-city-sm",
   "place-city-md-s",
   "place-city-md-n",
   "place-city-lg-s",
   "place-city-lg-n",
   "place-town",
+  // "place-neighbourhood",
+  "poi-parks-scalerank1",
+  "poi-parks-scalerank2",
+  "poi-parks-scalerank3",
+  "poi-scalerank1",
   "poi-scalerank2",
   "poi-scalerank3",
+  "state-label-sm",
+  "state-label-md",
+  "state-label-lg",
 ];
 
 const colorSteps = [
   [0, "rgba(19, 239, 250,0)"],
-  [20, colorStops[0]],
-  [40, colorStops[1]],
-  [75, colorStops[2]],
-  [100, colorStops[3]],
-  [150, colorStops[4]],
+  [colorStops.step[0], colorStops.color[0]],
+  [colorStops.step[1], colorStops.color[1]],
+  [colorStops.step[2], colorStops.color[2]],
+  [colorStops.step[3], colorStops.color[3]],
+  [colorStops.step[4], colorStops.color[4]],
 ];
 
 export default function Mapp(props) {
@@ -54,8 +61,9 @@ export default function Mapp(props) {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/dark-v9",
-      center: [-74.00644200339116, 40.71251869142519],
-      zoom: 11.5,
+      center: [-73.98997408518673, 40.70261932678772],
+      zoom: 12,
+      bearing: -30,
       maxPitch: 60,
       antialias: true,
     });
@@ -109,6 +117,9 @@ export default function Mapp(props) {
       for (let i = 0; i < layerHide.length; i++) {
         map.setLayoutProperty(layerHide[i], "visibility", "none");
       }
+      //reduce text opacity
+      map.setPaintProperty("place-neighbourhood", "text-opacity", 0.7);
+      map.setPaintProperty("road-label-large", "text-opacity", 0.7);
 
       //sidewalk layer
       for (let i = 0; i < NYCdata.length; i++) {
@@ -173,7 +184,7 @@ export default function Mapp(props) {
                 [22, 150],
               ],
             },
-            "circle-color": "rgba(234, 246, 49, 0.2)",
+            "circle-color": "rgba(234, 246, 49, 0.7)",
           },
         },
         firstLabelLayerId
@@ -208,7 +219,7 @@ export default function Mapp(props) {
 
   useEffect(() => {
     paint();
-    console.log("activeprop is::", activeProp);
+    // console.log("activeprop is::", activeProp);
   }, [activeProp]);
 
   const paint = () => {

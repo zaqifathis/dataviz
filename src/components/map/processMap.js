@@ -1,29 +1,69 @@
-// import axios from "axios";
+import { colorStops } from "../../constrains";
 
 //should use url
-export const urls = [
-  "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/data_chunck_sidewalk_density/NYCSidewalkDensity_xaaaa.json",
-  "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/data_chunck_sidewalk_density/NYCSidewalkDensity_xaaab.json",
-  "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/data_chunck_sidewalk_density/NYCSidewalkDensity_xaaac.json",
-];
+// export const urls = [
+//   "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/data_chunck_sidewalk_density/NYCSidewalkDensity_xaaaa.json",
+//   "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/data_chunck_sidewalk_density/NYCSidewalkDensity_xaaab.json",
+//   "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/data_chunck_sidewalk_density/NYCSidewalkDensity_xaaac.json",
+// ];
 
-export function getData() {
+export function getActiveData(activeProp) {
+  const list = [];
+  for (let i = 0; i < colorStops.step.length; i++) {
+    const step = colorStops.step[i];
+    list.push({ name: `${step}`, value: 0 });
+  }
+
+  const featureData = getJsonData();
+  for (let i = 0; i < featureData.length; i++) {
+    const item = featureData[i].properties[activeProp];
+    dataClustering(item, list);
+  }
+  return list;
+}
+
+function dataClustering(item, list) {
+  const steps = colorStops.step;
+
+  if (item <= steps[0]) {
+    // >20
+    list[0].value += 1;
+    return;
+  }
+  if (steps[0] < item && item <= steps[1]) {
+    //20 -40
+    list[1].value += 1;
+    return;
+  }
+  if (steps[1] < item && item <= steps[2]) {
+    //40-75
+    list[2].value += 1;
+    return;
+  }
+  if (steps[2] < item && item <= steps[3]) {
+    //75 - 100
+    list[3].value += 1;
+    return;
+  }
+  if (steps[3] < item) {
+    //100<
+    list[4].value += 1;
+    return;
+  }
+}
+
+export function getJsonData() {
   const featureData = [];
-  const total = [];
 
   for (let i = 0; i < 3; i++) {
-    const data = require("../../assets/NYCSidewalkDensity_" + i + ".json");
+    const data = require(`../../assets/NYCSidewalkDensity_${i}.json`);
     featureData.push(data.features);
   }
   const merged = [].concat.apply([], featureData);
-  merged.forEach((item) => {
-    total.push(item.properties.p_total_19);
-  });
-  // console.log("merge::", merged);
-
   return merged;
 }
 
+//hsl to rgb value
 export function getRgbValue(val) {
   const num = val > 100 ? 100 : val;
   const remapNum = remap(num, 0, 100, 185, 330);

@@ -17,7 +17,10 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Analysis() {
+function Analysis() {
   const classes = useStyles();
+
   return <Card className={classes.root}></Card>;
 }
+
+export default Analysis;
