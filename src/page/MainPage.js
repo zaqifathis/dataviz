@@ -8,7 +8,6 @@ import NightsStayOutlinedIcon from "@material-ui/icons/NightsStayOutlined";
 import Mapp from "../components/map/Map";
 import Description from "../components/sidebar/Description";
 import Analysis from "../components/sidebar/Analysis";
-import Charts from "../components/sidebar/Charts";
 import Legend from "../components/sidebar/Legend";
 
 import { style } from ".././constrains";
@@ -18,19 +17,19 @@ const useStyles = makeStyles({
     zIndex: 2,
     position: style.position,
     right: 0,
-    margin: "0 10px 0 0",
+    margin: "10px 10px 0 0",
   },
   filterGroup1: {
     zIndex: 2,
     position: style.position,
     right: 0,
-    margin: "50px 10px 0 0",
+    margin: "60px 10px 0 0",
   },
   filterGroup2: {
     zIndex: 2,
     position: style.position,
     right: 0,
-    margin: "85px 10px 0 0",
+    margin: "100px 10px 0 0",
   },
   btn: {
     borderRadius: style.borderRadius,
@@ -71,7 +70,7 @@ function MainPage() {
             setTimeActive("9");
           }}
           variant="contained"
-          size="small"
+          size="medium"
           startIcon={<WbSunnyOutlinedIcon />}
         >
           9.00 am
@@ -80,7 +79,7 @@ function MainPage() {
           className={classes.btn}
           onClick={() => setTimeActive("12")}
           variant="contained"
-          size="small"
+          size="medium"
           startIcon={<WbCloudyOutlinedIcon />}
         >
           12.00 pm
@@ -89,7 +88,7 @@ function MainPage() {
           className={classes.btn}
           onClick={() => setTimeActive("19")}
           variant="contained"
-          size="small"
+          size="medium"
           startIcon={<NightsStayOutlinedIcon />}
         >
           19.00 pm
@@ -107,9 +106,9 @@ function MainPage() {
             setFilterLoc(filter.total);
           }}
           variant="contained"
-          size="small"
+          size="medium"
         >
-          total
+          all
         </Button>
         <Button
           className={classes.btn}
@@ -117,7 +116,7 @@ function MainPage() {
             setFilterLoc(filter.subway);
           }}
           variant="contained"
-          size="small"
+          size="medium"
         >
           subway
         </Button>
@@ -125,7 +124,7 @@ function MainPage() {
           className={classes.btn}
           onClick={() => setFilterLoc(filter.office)}
           variant="contained"
-          size="small"
+          size="medium"
         >
           office
         </Button>
@@ -133,7 +132,7 @@ function MainPage() {
           className={classes.btn}
           onClick={() => setFilterLoc(filter.pharmacy)}
           variant="contained"
-          size="small"
+          size="medium"
         >
           pharmacy
         </Button>
@@ -148,7 +147,7 @@ function MainPage() {
           className={classes.btn}
           onClick={() => setFilterLoc(filter.bank)}
           variant="contained"
-          size="small"
+          size="medium"
         >
           bank
         </Button>
@@ -158,7 +157,7 @@ function MainPage() {
             setFilterLoc(filter.restaurant);
           }}
           variant="contained"
-          size="small"
+          size="medium"
         >
           restaurant
         </Button>
@@ -166,15 +165,14 @@ function MainPage() {
           className={classes.btn}
           onClick={() => setFilterLoc(filter.supermarket)}
           variant="contained"
-          size="small"
+          size="medium"
         >
           supermarket
         </Button>
       </ButtonGroup>
 
       <Description />
-      <Analysis />
-      <Charts selectedTime={timeActive} selectedLoc={filterLoc} />
+      <Analysis selectedTime={timeActive} selectedLoc={filterLoc} />
       <Mapp selectedTime={timeActive} selectedLoc={filterLoc} />
       <Legend />
     </div>

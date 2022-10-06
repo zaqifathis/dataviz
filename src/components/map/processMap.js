@@ -19,13 +19,15 @@ export function getActiveData(activeProp) {
     const item = featureData[i].properties[activeProp];
     dataClustering(item, list);
   }
+
+  console.log("featureData::", featureData);
   return list;
 }
 
 function dataClustering(item, list) {
   const steps = colorStops.step;
 
-  if (item <= steps[0]) {
+  if (5 < item && item <= steps[0]) {
     // >20
     list[0].value += 1;
     return;

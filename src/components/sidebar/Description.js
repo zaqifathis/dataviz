@@ -5,11 +5,13 @@ import { style } from "../../constrains";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 400,
+    width: 400,
+    height: 170,
     zIndex: 1,
     position: style.position,
     background: style.background,
-    padding: "10px 20px",
+    padding: "0px 20px",
+    margin: "10px 0 0 0",
     borderRadius: style.borderRadius,
     backdropFilter: style.backdropFilter,
   },
@@ -20,7 +22,7 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 5,
     color: "rgba(191, 192, 192, 0.8)",
-    fontSize: "12px",
+    fontSize: "13px",
   },
 });
 
@@ -30,13 +32,14 @@ export default function Description() {
     <Card className={classes.root}>
       <CardContent>
         <Typography className={classes.text} variant="h6">
-          NY COVID SIDEWALK DENSITY
+          NYC COVID SIDEWALK DENSITY
         </Typography>
         <Typography className={classes.pos} variant="body2" gutterBottom>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-          blanditiis tenetur unde suscipit, quam beatae rerum inventore
-          consectetur, neque doloribus, cupiditate numquam dignissimos laborum
-          fugiat deleniti? Eum quasi quidem quibusdam.
+          <p>
+            The visualization of NYC sidewalk density during covid time. The map
+            is categorized by time and location.
+          </p>{" "}
+          Data:
         </Typography>
       </CardContent>
     </Card>

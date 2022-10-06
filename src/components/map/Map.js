@@ -219,7 +219,6 @@ export default function Mapp(props) {
 
   useEffect(() => {
     paint();
-    // console.log("activeprop is::", activeProp);
   }, [activeProp]);
 
   const paint = () => {

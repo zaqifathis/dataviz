@@ -3,7 +3,7 @@ export const style = {
   borderRadius: "5px",
   backdropFilter: "blur(2px)",
   position: "absolute",
-  color: "white",
+  color: "rgba(255, 255, 255, 0.9)",
 };
 
 export const colorStops = {
