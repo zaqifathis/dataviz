@@ -53,9 +53,9 @@ const colorSteps = [
 export default function Mapp(props) {
   const mapContainerRef = useRef(null);
   const [map, setMap] = useState(null);
-  const [loc, setLoc] = useState("p_total_");
+  const [loc, setLoc] = useState("subw_");
   const [time, setTime] = useState("19");
-  const [activeProp, setActiveProp] = useState("p_total_19");
+  const [activeProp, setActiveProp] = useState("subw_19");
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -189,8 +189,8 @@ export default function Mapp(props) {
         },
         firstLabelLayerId
       );
-      map.setLayoutProperty("subwayLines", "visibility", "none");
-      map.setLayoutProperty("subwayStation", "visibility", "none");
+      map.setLayoutProperty("subwayLines", "visibility", "visible");
+      map.setLayoutProperty("subwayStation", "visibility", "visible");
 
       setMap(map);
     });
