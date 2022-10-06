@@ -6,7 +6,6 @@ import NYCSidewalkDensity_1 from "../../assets/NYCSidewalkDensity_1.json";
 import NYCSidewalkDensity_2 from "../../assets/NYCSidewalkDensity_2.json";
 import SubwayLines from "../../assets/Subway Lines.geojson";
 import SubwayStation from "../../assets/Subway Stations.geojson";
-import { ContactsOutlined } from "@material-ui/icons";
 import { colorStops } from "../../constrains";
 
 mapboxgl.accessToken =
@@ -123,24 +122,30 @@ export default function Mapp(props) {
 
       //sidewalk layer
       for (let i = 0; i < NYCdata.length; i++) {
-        //add source
-        map.addSource(`sidewalk${i}`, {
-          type: "geojson",
-          data: NYCdata[i],
-        });
-        map.addLayer(
-          {
-            id: `sidewalk${i}`,
-            type: "line",
-            source: `sidewalk${i}`,
-          },
-          firstLabelLayerId
-        );
-        map.setPaintProperty(`sidewalk${i}`, "line-color", {
-          property: activeProp,
-          stops: colorSteps,
-        });
-        map.setPaintProperty(`sidewalk${i}`, "line-width", lineWidth);
+        console.log("data is:", NYCdata[i]);
+        console.log("props:", props.activeLayers);
+
+        const data = getSumPedestrian(props.activeLayers, NYCdata[i].features);
+        console.log("newdata:", data);
+
+        // //add source
+        // map.addSource(`sidewalk${i}`, {
+        //   type: "geojson",
+        //   data: NYCdata[i],
+        // });
+        // map.addLayer(
+        //   {
+        //     id: `sidewalk${i}`,
+        //     type: "line",
+        //     source: `sidewalk${i}`,
+        //   },
+        //   firstLabelLayerId
+        // );
+        // map.setPaintProperty(`sidewalk${i}`, "line-color", {
+        //   property: activeProp,
+        //   stops: colorSteps,
+        // });
+        // map.setPaintProperty(`sidewalk${i}`, "line-width", lineWidth);
       }
 
       //subway layer
@@ -218,7 +223,7 @@ export default function Mapp(props) {
   }, [props.selectedLoc]);
 
   useEffect(() => {
-    paint();
+    // paint();
   }, [activeProp]);
 
   const paint = () => {
@@ -237,4 +242,30 @@ export default function Mapp(props) {
       <div ref={mapContainerRef} className="map-container" />
     </div>
   );
+}
+
+function getSumPedestrian(layers, data) {
+  const result = [];
+
+  for (let i = 0; i < 100; i++) {
+    const obj = {};
+    const temp = getLayerData(layers, data[i].properties);
+    obj.type = data[i].type;
+    obj.geometry = data[i].geometry;
+    obj.properties = temp;
+
+    result.push(obj);
+  }
+  return result;
+}
+
+function getLayerData(layers, properties) {
+  //should return object
+  const temp = [];
+  for (let i = 0; i < layers.length; i++) {
+    temp.push(properties[layers[i]]);
+  }
+  return {
+    sumLayer: temp.reduce((a, b) => a + b, 0),
+  };
 }

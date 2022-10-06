@@ -45,7 +45,7 @@ function MainPage() {
   const [timeActive, setTimeActive] = useState("19");
   const [filterLoc, setFilterLoc] = useState("subw_");
   const [locations, setLocs] = React.useState(() => [filter.subway]);
-  const [activeLayers, setActiveLayers] = useState(["subw_19"]);
+  const [activeLayers, setActiveLayers] = useState(["subw_19", "offi_19"]);
 
   useEffect(() => {
     setActiveLayers(updateFormat(locations, timeActive));
@@ -134,7 +134,7 @@ function MainPage() {
           sx={{
             background: `${style.background}`,
           }}
-          fullWidth="true"
+          fullWidth={true}
           size="small"
           value={locations}
           onChange={handleLocations}
