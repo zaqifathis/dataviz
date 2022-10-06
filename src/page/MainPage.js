@@ -45,14 +45,14 @@ function MainPage() {
   const [timeActive, setTimeActive] = useState("19");
   const [filterLoc, setFilterLoc] = useState("subw_");
   const [locations, setLocs] = React.useState(() => [filter.subway]);
-  const [activeLayer, setActiveLayer] = useState(["subw_19"]);
+  const [activeLayers, setActiveLayers] = useState(["subw_19"]);
 
   useEffect(() => {
-    setActiveLayer(updateFormat(locations, timeActive));
+    setActiveLayers(updateFormat(locations, timeActive));
   }, [timeActive]);
 
   useEffect(() => {
-    setActiveLayer(updateFormat(locations, timeActive));
+    setActiveLayers(updateFormat(locations, timeActive));
   }, [locations]);
 
   const handleLocations = (event, newFormats) => {
@@ -149,7 +149,7 @@ function MainPage() {
       <Mapp
         selectedTime={timeActive}
         selectedLoc={filterLoc}
-        activeLayer={activeLayer}
+        activeLayers={activeLayers}
       />
       <Legend />
     </div>
