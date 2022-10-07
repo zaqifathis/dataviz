@@ -5,25 +5,24 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { style } from "../../constrains";
 
-export default function Description() {
+export default function Analysis() {
   return (
     <Card
       style={{
         background: style.background,
         backdropFilter: "blur(2px)",
         width: 400,
-        height: 170,
+        height: 600,
         zIndex: 1,
         color: style.color,
-        left: 0,
-        top: 0,
-        margin: " 20px 0 0 20px",
+        left: 20,
+        top: 330,
         position: "absolute",
       }}
     >
       <CardContent>
         <Typography variant="h6" component="div">
-          NYC COVID SIDEWALK DENSITY
+          Density Distribution Analysis
         </Typography>
         <Typography
           style={{
@@ -34,10 +33,8 @@ export default function Description() {
           component="div"
         >
           <p>
-            Sidewalk density is a data visualization that explores the
-            relationship between the pedestrian with the building program during
-            specific time. The color represents the total estimated pedestrian
-            on each sidewalk.
+            The density comparasion between multiple places during specific
+            time.
           </p>
         </Typography>
       </CardContent>

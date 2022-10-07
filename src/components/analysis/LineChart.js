@@ -33,7 +33,6 @@ const graphColor = [
 function LineCharts(props) {
   const data = getActiveData(props.activeLayers, props.location);
   const locColor = getListloc(props.location);
-  console.log("logcolor:", locColor);
 
   return (
     <LineChart

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import Mapp from "../components/map/Map";
-// import Description from "../components/sidebar/Description";
+import Description from "../components/sidebar/Description";
+import Analysis from "../components/sidebar/Analysis";
 import Legend from "../components/sidebar/Legend";
 import LineCharts from "../components/analysis/LineChart";
 import { style } from ".././constrains";
@@ -90,13 +91,14 @@ function MainPage() {
           width: 400,
           position: "absolute",
           right: 0,
-          margin: "10px 0 0 0",
+          top: 20,
           zIndex: 2,
         }}
       >
         <ToggleButtonGroup
           sx={{
             background: `${style.background}`,
+            backdropFilter: "blur(2px)",
           }}
           fullWidth={true}
           size="small"
@@ -146,9 +148,10 @@ function MainPage() {
         </ToggleButtonGroup>
       </Container>
 
-      {/* <Description /> */}
       <Mapp activeLayers={activeLayers} />
       <LineCharts activeLayers={activeLayers} location={locations} />
+      <Description />
+      <Analysis />
       <Legend />
     </div>
   );
