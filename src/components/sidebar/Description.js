@@ -34,10 +34,10 @@ export default function Description() {
           component="div"
         >
           <p>
-            Sidewalk density is a data visualization that explores the
-            relationship between the pedestrian with the building program during
-            specific time. The color represents the total estimated pedestrian
-            on each sidewalk.
+            NYC Sidewalk density explores the relationship between pedestrian
+            and the building program during covid time and how it affects the
+            transmission of the covid-19. The color represents the total
+            estimated pedestrian on each sidewalk.
           </p>
         </Typography>
       </CardContent>

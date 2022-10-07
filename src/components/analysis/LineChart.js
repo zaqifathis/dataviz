@@ -17,18 +17,18 @@ const filter = {
   offi_: "office",
   bank_: "bank",
   rest_: "restaurant",
-  phar_: "pharmach",
+  phar_: "pharmacy",
   supe_: "supermarket",
 };
-
-const graphColor = [
-  "#0ff29f",
-  "#0fc9f2",
-  "#b9f20f",
-  "#f20fd8",
-  "#0f16f2",
-  "#f2750f",
-];
+export const filterColor = {
+  p_total_: "#f20fd8",
+  subw_: "#0ff29f",
+  offi_: "#b9f20f",
+  bank_: "#0f16f2",
+  rest_: "#f2750f",
+  phar_: "#0fc9f2",
+  supe_: "#bf330f",
+};
 
 function LineCharts(props) {
   const data = getActiveData(props.activeLayers, props.location);
@@ -72,7 +72,7 @@ function getListloc(locations) {
   for (let i = 0; i < locations.length; i++) {
     const temp = {};
     temp.name = filter[locations[i]];
-    temp.color = graphColor[i];
+    temp.color = filterColor[locations[i]];
     listLocs.push(temp);
   }
 
