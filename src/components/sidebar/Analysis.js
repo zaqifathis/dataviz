@@ -76,7 +76,7 @@ export default function Analysis() {
         >
           <p>
             Comparasion of the total sidewalk density between multiple places.
-            Add one or more filter to see the comparasion.
+            Add one or more filters to see the comparasion.
           </p>
         </Typography>
         <Typography

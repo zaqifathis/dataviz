@@ -49,13 +49,13 @@ export default function Analysis() {
         style={{
           fontSize: "13px",
           margin: "25px 0 0 20px",
-          wordSpacing: 300,
+          wordSpacing: 60,
         }}
         variant="body2"
         color={"rgba(191, 192, 192, 0.8)"}
         component="div"
       >
-        20 150<span>&#60;</span>
+        20 40 75 100 150<span>&#60;</span>
       </Typography>
     </Card>
   );
