@@ -13,7 +13,7 @@ const filter = {
   offi_: "office",
   bank_: "bank",
   rest_: "restaurant",
-  phar_: "pharmach",
+  phar_: "pharmacy",
   supe_: "supermarket",
 };
 

@@ -26,7 +26,6 @@ export default function Analysis() {
       <Typography
         style={{
           fontSize: "13px",
-          // lineHeight: "5px",
           margin: "0 0 0 50px",
         }}
         variant="body2"

@@ -26,13 +26,16 @@ export const filterColor = {
   offi_: "#b9f20f",
   bank_: "#0f16f2",
   rest_: "#f2750f",
-  phar_: "#0fc9f2",
+  phar_: "#0fc302",
   supe_: "#bf330f",
 };
 
 function LineCharts(props) {
   const data = getActiveData(props.activeLayers, props.location);
   const locColor = getListloc(props.location);
+
+  console.log("data:", data);
+  console.log("locColor:", locColor);
 
   return (
     <LineChart
