@@ -23,11 +23,11 @@ const filter = {
 export const filterColor = {
   p_total_: "#f20fd8",
   subw_: "#0ff29f",
-  offi_: "#b9f20f",
+  offi_: "#00E1EB",
   bank_: "#0f16f2",
-  rest_: "#f2750f",
-  phar_: "#0fc302",
-  supe_: "#bf330f",
+  rest_: "#F95542",
+  phar_: "#EF4D98",
+  supe_: "#F9BFB2",
 };
 
 function LineCharts(props) {
