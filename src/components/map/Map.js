@@ -52,9 +52,7 @@ const colorSteps = [
 export default function Mapp(props) {
   const mapContainerRef = useRef(null);
   const [map, setMap] = useState(null);
-  const [loc, setLoc] = useState("subw_");
-  const [time, setTime] = useState("19");
-  const [activeProp, setActiveProp] = useState("subw_19");
+  const [activeProp, setActiveProp] = useState(["subw_19"]);
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -122,30 +120,32 @@ export default function Mapp(props) {
 
       //sidewalk layer
       for (let i = 0; i < NYCdata.length; i++) {
-        console.log("data is:", NYCdata[i]);
-        console.log("props:", props.activeLayers);
+        const data = getSumPedestrian(activeProp, NYCdata[i].features);
 
-        const data = getSumPedestrian(props.activeLayers, NYCdata[i].features);
-        console.log("newdata:", data);
+        //add source
+        map.addSource(`sidewalk${i}`, {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: data,
+          },
+        });
 
-        // //add source
-        // map.addSource(`sidewalk${i}`, {
-        //   type: "geojson",
-        //   data: NYCdata[i],
-        // });
-        // map.addLayer(
-        //   {
-        //     id: `sidewalk${i}`,
-        //     type: "line",
-        //     source: `sidewalk${i}`,
-        //   },
-        //   firstLabelLayerId
-        // );
-        // map.setPaintProperty(`sidewalk${i}`, "line-color", {
-        //   property: activeProp,
-        //   stops: colorSteps,
-        // });
-        // map.setPaintProperty(`sidewalk${i}`, "line-width", lineWidth);
+        map.addLayer(
+          {
+            id: `sidewalk${i}`,
+            type: "line",
+            source: `sidewalk${i}`,
+          },
+          firstLabelLayerId
+        );
+
+        map.setPaintProperty(`sidewalk${i}`, "line-color", {
+          property: "sumLayer",
+          stops: colorSteps,
+        });
+
+        map.setPaintProperty(`sidewalk${i}`, "line-width", lineWidth);
       }
 
       //subway layer
@@ -189,7 +189,7 @@ export default function Mapp(props) {
                 [22, 150],
               ],
             },
-            "circle-color": "rgba(234, 246, 49, 0.7)",
+            "circle-color": "rgba(234, 246, 49, 0.5)",
           },
         },
         firstLabelLayerId
@@ -203,39 +203,50 @@ export default function Mapp(props) {
 
   useEffect(() => {
     if (!map) return;
-    setTime(props.selectedTime);
-    setActiveProp(loc + props.selectedTime);
-  }, [props.selectedTime]);
+    setActiveProp(props.activeLayers);
+  }, [props.activeLayers]);
+
+  // useEffect(() => {
+  //   if (!map) return;
+  //   setLoc(props.selectedLoc);
+  //   setActiveProp(props.selectedLoc + time);
+
+  //   //check layer
+  //   if (props.selectedLoc === "subw_") {
+  //     map.setLayoutProperty("subwayLines", "visibility", "visible");
+  //     map.setLayoutProperty("subwayStation", "visibility", "visible");
+  //   } else {
+  //     map.setLayoutProperty("subwayLines", "visibility", "none");
+  //     map.setLayoutProperty("subwayStation", "visibility", "none");
+  //   }
+  // }, [props.selectedLoc]);
 
   useEffect(() => {
-    if (!map) return;
-    setLoc(props.selectedLoc);
-    setActiveProp(props.selectedLoc + time);
-
-    //check layer
-    if (props.selectedLoc === "subw_") {
-      map.setLayoutProperty("subwayLines", "visibility", "visible");
-      map.setLayoutProperty("subwayStation", "visibility", "visible");
-    } else {
-      map.setLayoutProperty("subwayLines", "visibility", "none");
-      map.setLayoutProperty("subwayStation", "visibility", "none");
-    }
-  }, [props.selectedLoc]);
-
-  useEffect(() => {
-    // paint();
+    paint();
   }, [activeProp]);
 
   const paint = () => {
     if (map) {
       for (let i = 0; i < NYCdata.length; i++) {
-        map.setPaintProperty(`sidewalk${i}`, "line-color", {
-          property: activeProp,
-          stops: colorSteps,
+        const data = getSumPedestrian(activeProp, NYCdata[i].features);
+        map.getSource(`sidewalk${i}`).setData({
+          type: "FeatureCollection",
+          features: data,
         });
       }
     }
   };
+
+  // const paint = () => {
+  //   if (map) {
+  //     for (let i = 0; i < NYCdata.length; i++) {
+  //       map.setPaintProperty(`sidewalk${i}`, "line-color", {
+  //         property: activeProp,
+  //         stops: colorSteps,
+  //       });
+  //     }
+  //   }
+  // };
 
   return (
     <div>
@@ -247,7 +258,7 @@ export default function Mapp(props) {
 function getSumPedestrian(layers, data) {
   const result = [];
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < data.length; i++) {
     const obj = {};
     const temp = getLayerData(layers, data[i].properties);
     obj.type = data[i].type;

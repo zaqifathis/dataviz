@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Mapp from "../components/map/Map";
 // import Description from "../components/sidebar/Description";
 import Legend from "../components/sidebar/Legend";
+import LineCharts from "../components/analysis/LineChart";
 import { style } from ".././constrains";
 
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
@@ -45,7 +46,7 @@ function MainPage() {
   const [timeActive, setTimeActive] = useState("19");
   const [filterLoc, setFilterLoc] = useState("subw_");
   const [locations, setLocs] = React.useState(() => [filter.subway]);
-  const [activeLayers, setActiveLayers] = useState(["subw_19", "offi_19"]);
+  const [activeLayers, setActiveLayers] = useState(["subw_19"]);
 
   useEffect(() => {
     setActiveLayers(updateFormat(locations, timeActive));
@@ -146,11 +147,8 @@ function MainPage() {
       </Container>
 
       {/* <Description /> */}
-      <Mapp
-        selectedTime={timeActive}
-        selectedLoc={filterLoc}
-        activeLayers={activeLayers}
-      />
+      <Mapp activeLayers={activeLayers} />
+      <LineCharts activeLayers={activeLayers} location={locations} />
       <Legend />
     </div>
   );

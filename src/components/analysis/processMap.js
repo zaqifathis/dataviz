@@ -7,49 +7,69 @@ import { colorStops } from "../../constrains";
 //   "https://datavizzaqi.s3.ap-northeast-1.amazonaws.com/data_chunck_sidewalk_density/NYCSidewalkDensity_xaaac.json",
 // ];
 
-export function getActiveData(activeProp) {
+const filter = {
+  p_total_: "total",
+  subw_: "subway",
+  offi_: "office",
+  bank_: "bank",
+  rest_: "restaurant",
+  phar_: "pharmach",
+  supe_: "supermarket",
+};
+
+export function getActiveData(activeLayers, locations) {
   const list = [];
   for (let i = 0; i < colorStops.step.length; i++) {
     const step = colorStops.step[i];
-    list.push({ name: `${step}`, value: 0 });
-  }
+    const temp = {};
+    temp.name = `${step}`;
 
+    locations.forEach((loc) => {
+      const locname = filter[loc];
+      temp[locname] = 0;
+    });
+    list.push(temp);
+  }
+  let test = 0;
   const featureData = getJsonData();
   for (let i = 0; i < featureData.length; i++) {
-    const item = featureData[i].properties[activeProp];
-    dataClustering(item, list);
+    for (let j = 0; j < activeLayers.length; j++) {
+      const item = featureData[i].properties[activeLayers[j]];
+      const locname = filter[locations[j]];
+      if (item > 100) test += 1;
+      dataClustering(item, locname, list);
+    }
   }
-
-  console.log("featureData::", featureData);
   return list;
 }
 
-function dataClustering(item, list) {
+function dataClustering(item, locname, list) {
+  //list [{20},{40},{75},{100}, {150}]
   const steps = colorStops.step;
 
   if (5 < item && item <= steps[0]) {
     // >20
-    list[0].value += 1;
+    list[0][locname] += 1;
     return;
   }
   if (steps[0] < item && item <= steps[1]) {
     //20 -40
-    list[1].value += 1;
+    list[1][locname] += 1;
     return;
   }
   if (steps[1] < item && item <= steps[2]) {
     //40-75
-    list[2].value += 1;
+    list[2][locname] += 1;
     return;
   }
   if (steps[2] < item && item <= steps[3]) {
     //75 - 100
-    list[3].value += 1;
+    list[3][locname] += 1;
     return;
   }
   if (steps[3] < item) {
     //100<
-    list[4].value += 1;
+    list[4][locname] += 1;
     return;
   }
 }
