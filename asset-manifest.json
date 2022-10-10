@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/dataviz/static/css/main.c74512fa.css",
+    "main.js": "/dataviz/static/js/main.cb58345b.js",
+    "static/media/Subway Lines.geojson": "/dataviz/static/media/Subway Lines.0b4558167bf3949c0ddf.geojson",
+    "static/media/Subway Stations.geojson": "/dataviz/static/media/Subway Stations.9171938ccbdec798ba26.geojson",
+    "index.html": "/dataviz/index.html",
+    "main.c74512fa.css.map": "/dataviz/static/css/main.c74512fa.css.map",
+    "main.cb58345b.js.map": "/dataviz/static/js/main.cb58345b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c74512fa.css",
+    "static/js/main.cb58345b.js"
+  ]
+}
