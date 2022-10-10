@@ -45,7 +45,6 @@ function updateFormat(loc, time) {
 
 function MainPage() {
   const [timeActive, setTimeActive] = useState("19");
-  const [filterLoc, setFilterLoc] = useState("subw_");
   const [locations, setLocs] = React.useState(() => [filter.subway]);
   const [activeLayers, setActiveLayers] = useState(["subw_19"]);
 
