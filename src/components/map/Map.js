@@ -237,17 +237,6 @@ export default function Mapp(props) {
     }
   };
 
-  // const paint = () => {
-  //   if (map) {
-  //     for (let i = 0; i < NYCdata.length; i++) {
-  //       map.setPaintProperty(`sidewalk${i}`, "line-color", {
-  //         property: activeProp,
-  //         stops: colorSteps,
-  //       });
-  //     }
-  //   }
-  // };
-
   return (
     <div>
       <div ref={mapContainerRef} className="map-container" />
