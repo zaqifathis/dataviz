@@ -36,10 +36,17 @@
       "react-app/jest"
     ]
   },
-  "browserslist": [
-    "defaults",
-    "not ie 11"
-  ],
+  "browserslist": {
+    "production": [
+      "defaults",
+      "not ie 11"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "devDependencies": {
     "gh-pages": "^4.0.0"
   }
