@@ -34,6 +34,9 @@ function LineCharts(props) {
   const data = getActiveData(props.activeLayers, props.location);
   const locColor = getListloc(props.location);
 
+  console.log("data:", data);
+  console.log("locColor:", locColor);
+
   return (
     <LineChart
       className="charts"
