@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+// import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from "mapbox-gl/dist/mapbox-gl";
+import MapboxWorker from "mapbox-gl/dist/mapbox-gl-csp-worker";
 
 import NYCSidewalkDensity_0 from "../../assets/NYCSidewalkDensity_0.json";
 import NYCSidewalkDensity_1 from "../../assets/NYCSidewalkDensity_1.json";
@@ -55,6 +57,7 @@ export default function Mapp(props) {
   const [activeProp, setActiveProp] = useState(["subw_19"]);
 
   useEffect(() => {
+    mapboxgl.workerClass = MapboxWorker;
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/dark-v9",
