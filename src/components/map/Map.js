@@ -62,7 +62,8 @@ export default function Mapp(props) {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/dark-v9",
-      center: [-73.98997408518673, 40.70261932678772],
+      center: [51.0509304, 13.7383838],
+      //center: [-73.98997408518673, 40.70261932678772],
       zoom: 12,
       bearing: -30,
       maxPitch: 60,
